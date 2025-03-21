@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PeakOptimizer - Settings</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            padding-top: 20px;
+            background: linear-gradient(135deg, #6e35de 0%, #3c7ae0 100%);
+            color: #fff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+        }
+        .main-container {
+            max-width: 728px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        .card {
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 16px;
+            border: none;
+            overflow: hidden;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+            margin-bottom: 30px;
+            padding: 30px;
+            color: #4a5568;
+        }
+        .btn-primary {
+            background-color: #f35587;
+            border-color: #f35587;
+            border-radius: 30px;
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            box-shadow: 0 4px 12px rgba(243, 85, 135, 0.3);
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            background-color: #e04d7b;
+            border-color: #e04d7b;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(243, 85, 135, 0.4);
+        }
+        .btn-secondary {
+            background-color: #6e35de;
+            border-color: #6e35de;
+            border-radius: 30px;
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            box-shadow: 0 4px 12px rgba(110, 53, 222, 0.3);
+            transition: all 0.3s ease;
+        }
+        .btn-secondary:hover {
+            background-color: #5a2bb9;
+            border-color: #5a2bb9;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(110, 53, 222, 0.4);
+        }
+        h1 {
+            color: white;
+            font-weight: 700;
+            margin-bottom: 30px;
+            text-align: center;
+            font-size: 2.5rem;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        .setting-group {
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+        .setting-group:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+        .setting-title {
+            font-weight: 600;
+            font-size: 1.2rem;
+            color: #2d3748;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        .setting-icon {
+            margin-right: 8px;
+            color: #6e35de;
+            font-size: 1.3rem;
+        }
+        .audio-test-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .back-link {
+            display: block;
+            margin-top: 20px;
+            text-align: center;
+            color: white;
+            text-decoration: none;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <h1>PeakOptimizer Settings</h1>
+        
+        <div class="card">
+            <div class="setting-group">
+                <div class="setting-title">
+                    <span class="setting-icon">🔊</span>Audio Settings
+                </div>
+                <p>If you're having trouble hearing the notification sounds, try the tests below:</p>
+                
+                <div class="audio-test-buttons mb-3">
+                    <button id="test-sound-1" class="btn btn-primary">Test Sound 1</button>
+                    <button id="test-sound-2" class="btn btn-secondary">Test Sound 2</button>
+                    <button id="test-sound-3" class="btn btn-success">Test Sound 3</button>
+                </div>
+                
+                <div id="audio-status" class="alert alert-secondary mt-3">
+                    Sound test status will appear here...
+                </div>
+            </div>
+            
+            <div class="setting-group">
+                <div class="setting-title">
+                    <span class="setting-icon">🔧</span>Audio Troubleshooting
+                </div>
+                <ul>
+                    <li>Ensure your device volume is turned up</li>
+                    <li>Check that your browser has permission to play audio</li>
+                    <li>Try using a different browser</li>
+                    <li>Restart your browser</li>
+                </ul>
+            </div>
+            
+            <div class="setting-group">
+                <div class="setting-title">
+                    <span class="setting-icon">🗑️</span>Clear App Data
+                </div>
+                <p>If you're experiencing issues, you can reset the app's local storage:</p>
+                <button id="clear-data" class="btn btn-danger">Reset App Data</button>
+            </div>
+        </div>
+        
+        <a href="/" class="back-link">← Back to PeakOptimizer</a>
+    </div>
+
+    <audio id="test-audio-1" preload="auto">
+        <source src="/static/notification.mp3" type="audio/mpeg">
+    </audio>
+    
+    <audio id="test-audio-2" preload="auto">
+        <source src="https://www.soundjay.com/buttons/sounds/button-35a.mp3" type="audio/mpeg">
+    </audio>
+    
+    <audio id="test-audio-3" preload="auto">
+        <source src="data:audio/mp3;base64,SUQzAwAAAAAAJlRQRTEAAAAcAAAAU291bmRKYXkuY29tIFNvdW5kIEVmZmVjdHMARElSQwAAAAFpAAAAAAAAAAgABQAlAEEDAAUALQAmAwAFAAAATEFNRTMuOTlyAWYAAAAALpQAAMAAAQJOgkMEWgAABQAgJAbDEABQtQB/YAUAGQJAaA0BAFIcAP8ASGluZwAAAA==" type="audio/mpeg">
+    </audio>
+
+    <script>
+        function updateStatus(message, isSuccess) {
+            const statusElement = document.getElementById('audio-status');
+            statusElement.textContent = message;
+            statusElement.className = isSuccess 
+                ? 'alert alert-success mt-3' 
+                : 'alert alert-danger mt-3';
+        }
+
+        function playTestSound(audioId) {
+            const sound = document.getElementById(audioId);
+            sound.volume = 1.0;
+            sound.currentTime = 0;
+            
+            const playPromise = sound.play();
+            
+            if (playPromise !== undefined) {
+                playPromise
+                    .then(() => {
+                        updateStatus('Sound played successfully! If you didn\'t hear it, check your device volume.', true);
+                    })
+                    .catch(error => {
+                        updateStatus('Failed to play sound: ' + error.message, false);
+                        console.error('Audio error:', error);
+                    });
+            }
+        }
+        
+        document.getElementById('test-sound-1').addEventListener('click', function() {
+            updateStatus('Attempting to play sound 1...', false);
+            playTestSound('test-audio-1');
+        });
+        
+        document.getElementById('test-sound-2').addEventListener('click', function() {
+            updateStatus('Attempting to play sound 2...', false);
+            playTestSound('test-audio-2');
+        });
+        
+        document.getElementById('test-sound-3').addEventListener('click', function() {
+            updateStatus('Attempting to play sound 3...', false);
+            playTestSound('test-audio-3');
+        });
+        
+        document.getElementById('clear-data').addEventListener('click', function() {
+            localStorage.clear();
+            updateStatus('App data has been reset successfully!', true);
+        });
+    </script>
+</body>
+</html> 

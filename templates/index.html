@@ -3,530 +3,1122 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PeakOptimizer - Activity Tracker</title>
+    <title>PeakOptimizer - Focus Assistant</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
-            padding-top: 20px;
-            background-color: #f8f9fa;
-            color: #4a5568;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        .card {
-            margin-bottom: 20px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-            border: none;
-            border-radius: 12px;
-        }
-        .card-header {
-            border-radius: 12px 12px 0 0 !important;
-            font-weight: 500;
-        }
-        .bg-primary {
-            background-color: #2c7a7b !important;
-        }
-        .bg-info {
-            background-color: #3182ce !important;
-        }
-        .bg-success {
-            background-color: #38a169 !important;
-        }
-        .text-primary {
-            color: #2c7a7b !important;
-        }
-        .btn-primary {
-            background-color: #2c7a7b;
-            border-color: #2c7a7b;
-        }
-        .btn-primary:hover {
-            background-color: #285e61;
-            border-color: #285e61;
-        }
-        .stats-number {
-            font-size: 2rem;
-            font-weight: bold;
-            color: #2c7a7b;
-        }
-        .header-title h1 {
-            color: #4a5568;
-        }
-        .header-title .text-primary {
-            color: #2c7a7b !important;
-        }
-        #personalized-recommendations {
-            display: none;
-            margin-top: 15px;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-            overflow: hidden;
-            border: 1px solid #e2e8f0;
-        }
-        #personalized-recommendations h5 {
-            background-color: #2c7a7b;
-            color: white;
-            padding: 15px 20px;
+            padding-top: 0;
+            background: linear-gradient(135deg, #6e35de 0%, #3c7ae0 100%);
+            color: #fff;
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
             margin: 0;
-            font-weight: 500;
-            border-radius: 12px 12px 0 0;
         }
-        .recommendation-section {
-            padding: 25px;
-            background-color: white;
-        }
-        .recommendation-section p {
-            font-size: 1.1rem;
-            margin-bottom: 20px;
-            color: #4a5568;
-        }
-        .recommendation-section ul {
-            list-style-type: none;
-            padding-left: 0;
-            margin-bottom: 20px;
-        }
-        .recommendation-section li {
-            background-color: #f7fafc;
-            border-left: 4px solid #3182ce;
-            padding: 18px;
-            margin-bottom: 15px;
-            border-radius: 0 8px 8px 0;
-            font-size: 1.05rem;
-            transition: all 0.3s ease;
-        }
-        .recommendation-section li:hover {
-            transform: translateX(5px);
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-        }
-        .recommendation-section li strong {
-            color: #2c7a7b;
-            display: block;
-            margin-bottom: 8px;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        .btn-recommend {
-            margin-bottom: 15px;
-            padding: 10px 20px;
-            border-radius: 30px;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            background-color: #3182ce;
-            border-color: #3182ce;
-        }
-        .btn-recommend:hover {
-            background-color: #2c7a7b;
-            border-color: #2c7a7b;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        .event-row.new {
-            background-color: #edf2f7;
-        }
-        .table {
-            color: #4a5568;
-        }
-        .table thead th {
-            border-bottom: 2px solid #e2e8f0;
-            color: #2c7a7b;
-            font-weight: 500;
-        }
-        .table td, .table th {
-            border-top: 1px solid #e2e8f0;
-            padding: 12px;
-        }
-        .event-row {
-            transition: background-color 0.3s;
-        }
-        .stats-card {
-            text-align: center;
-        }
-        .stats-card .card-body {
-            padding: 1.5rem;
-        }
-        .stats-label {
-            font-size: 0.9rem;
-            color: #4a5568;
-        }
-        .header-logo {
-            max-height: 50px;
-            margin-right: 10px;
-        }
-        .header-title {
+        .app-header {
             display: flex;
             align-items: center;
+            padding: 1rem 2rem;
+            background-color: rgba(255, 255, 255, 0.95);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
         }
-        .recommendation-card {
-            margin-top: 20px;
-            border-left: 4px solid #3182ce;
+        .app-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: 700;
+            font-size: 1.4rem;
+            color: #111;
+            text-decoration: none;
+        }
+        .app-logo span {
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            letter-spacing: -0.02em;
+        }
+        .app-logo svg {
+            flex-shrink: 0;
+        }
+        .app-logo img {
+            width: 32px;
+            height: 32px;
+        }
+        .app-nav {
+            margin-left: auto;
+            display: none; /* Hide the navigation links */
+        }
+        .app-nav a {
+            color: #4a5568;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: color 0.2s ease;
+        }
+        .app-nav a:hover {
+            color: #6e35de;
+        }
+        .main-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+        .hero-section {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        .hero-section h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #ffffff 0%, rgba(255, 255, 255, 0.8) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.2;
+        }
+        .hero-section p {
+            font-size: 1.35rem;
+            color: rgba(255, 255, 255, 0.9);
+            max-width: 70%;
+            margin: 0 auto 2rem;
+            line-height: 1.5;
+        }
+        .card {
+            background-color: #ffffff;
+            border-radius: 24px;
+            border: none;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            margin-bottom: 3rem;
+            padding: 2.5rem;
+        }
+        .card-form-header {
+            color: #1a202c;
+            font-weight: 700;
+            font-size: 1.6rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        .form-message {
+            display: none; /* Hide the old message box */
+        }
+        .form-subheader {
+            display: none; /* Hide the old style message */
+        }
+        .highlight {
+            font-weight: 700;
+            color: #6e35de;
+            display: inline-block;
+        }
+        .textarea-container {
+            position: relative;
+            margin-bottom: 25px;
+        }
+        .mood-textarea {
+            padding: 18px 20px;
+            font-size: 1.05rem;
+            border-radius: 16px;
+            border: 1px solid rgba(110, 53, 222, 0.2);
+            background-color: #ffffff;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+            transition: all 0.3s ease;
+            resize: none;
+            width: 100%;
+            line-height: 1.5;
+        }
+        .mood-textarea:focus {
+            border-color: #6e35de;
+            box-shadow: 0 0 0 3px rgba(110, 53, 222, 0.15);
+            outline: none;
+        }
+        .mood-textarea::placeholder {
+            color: #9da3af;
+            opacity: 0.8;
+        }
+        .form-row {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+            align-items: center;
+        }
+        .form-col {
+            flex: 1;
+        }
+        .features-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+        .feature-card {
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            padding: 2rem 1.5rem;
+            text-align: center;
+            color: white;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+        .feature-card:hover {
+            background-color: rgba(255, 255, 255, 0.15);
+            transform: translateY(-5px);
+        }
+        .feature-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+        .feature-card p {
+            font-size: 1rem;
+            line-height: 1.5;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #ff5f6d 0%, #ff9966 100%);
+            border: none;
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(255, 95, 109, 0.4);
+            transition: all 0.3s ease;
+            letter-spacing: 0.01em;
+            color: white;
+        }
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #ff4b6b 0%, #ff8e5c 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(255, 95, 109, 0.5);
+        }
+        .hidden {
+            display: none;
+        }
+        .nudge {
+            background: white;
+            color: #4a5568;
+            padding: 16px 20px;
+            border-radius: 12px;
+            margin-top: 15px;
+            font-weight: 500;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            border-left: 4px solid #6e35de;
+            text-align: left;
+        }
+        .form-control {
+            padding: 16px 20px;
+            border-radius: 16px;
+            border: 1px solid rgba(110, 53, 222, 0.2);
+            background-color: #ffffff;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+            font-size: 1.05rem;
+        }
+        textarea.form-control {
+            padding: 16px 20px;
+            line-height: 1.5;
+        }
+        .form-control:focus {
+            border-color: #6e35de;
+            box-shadow: 0 0 0 3px rgba(110, 53, 222, 0.15);
+            outline: none;
+        }
+        label {
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+        .form-label {
+            color: #4a5568;
+            font-weight: 600;
+            font-size: 1.05rem;
+            margin-bottom: 12px;
+            display: block;
+            text-shadow: none;
+        }
+        .form-icon {
+            margin-right: 8px;
+            color: #6e35de;
+            font-size: 1.2rem;
+        }
+        #session-timer {
+            text-align: center;
+            padding: 30px;
+            background-color: #f8f9fa;
+            border-radius: 16px;
+            margin-top: 30px;
+            color: #4a5568;
+            border-top: 4px solid #f86a94;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+        #session-timer h2 {
+            color: #f86a94;
+            font-weight: 700;
+            margin-bottom: 15px;
+            font-size: 1.8rem;
+        }
+        #session-timer h3 {
+            color: #6e35de;
+            font-weight: 600;
+            margin: 20px 0 15px 0;
+            font-size: 1.4rem;
+        }
+        #timer {
+            font-size: 5rem;
+            font-weight: 700;
+            color: #f35587;
+            margin: 15px 0;
+            letter-spacing: 2px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            line-height: 1.1;
+        }
+        .session-progress {
+            margin: 25px 0;
+            position: relative;
+            height: 8px;
+            background-color: #e2e8f0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .progress-bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            background-color: #6e35de;
+            border-radius: 4px;
+            width: 0%;
+            transition: width 1s linear;
+        }
+        .snack-markers {
+            position: relative;
+            height: 30px;
+            margin-top: -15px;
+            margin-bottom: 20px;
+        }
+        .snack-marker {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: #f86a94;
+            border-radius: 50%;
+            top: 0;
+            transform: translateX(-50%);
+            transition: background-color 0.3s ease;
+            cursor: pointer;
+            border: 2px solid white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            z-index: 2;
+        }
+        .snack-marker.completed {
+            background-color: #42b983;
+        }
+        .snack-marker:hover::after {
+            content: attr(data-time);
+            position: absolute;
+            bottom: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #4a5568;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            white-space: nowrap;
+        }
+        .preparing-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 15px 0;
+            background-color: #fff;
+            padding: 12px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        .coach-emoji {
+            font-size: 2rem;
+            margin-right: 12px;
+            animation: bounce 1s infinite alternate;
+        }
+        @keyframes bounce {
+            from { transform: translateY(0px); }
+            to { transform: translateY(-10px); }
+        }
+        .preparing-text {
+            font-weight: 600;
+            color: #6e35de;
+            font-size: 1.2rem;
+        }
+        .debug-info {
+            font-size: 0.8rem;
+            color: #888;
+            margin-top: 5px;
+            display: none;
+        }
+        .debug-toggle {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            background: rgba(255,255,255,0.6);
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            font-size: 16px;
+            cursor: pointer;
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .test-nudge-btn {
+            background: #f86a94;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 8px 16px;
+            margin-top: 10px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            display: none;
+        }
+        .immediate-nudge {
+            color: #6e35de;
+            font-weight: bold;
+            margin-top: 15px;
+            cursor: pointer;
+            text-decoration: underline;
+            display: none;
+        }
+        .bedtime-section {
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 16px;
+            padding: 25px;
+            margin-top: 30px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+        }
+        .bedtime-section h3 {
+            color: #6e35de;
+            font-weight: 700;
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .bedtime-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+        .bedtime-toggle label {
+            color: #2d3748;
+            font-weight: 600;
+            font-size: 1.05rem;
+            margin: 0;
+        }
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        input:checked + .toggle-slider {
+            background-color: #f86a94;
+        }
+        input:checked + .toggle-slider:before {
+            transform: translateX(26px);
+        }
+        .bedtime-input {
+            margin-top: 15px;
+        }
+        .bedtime-info {
+            color: #4a5568;
+            font-size: 0.9rem;
+            margin-top: 10px;
+            font-style: italic;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header-title mb-4">
-            <h1 class="display-5">
-                <span class="text-primary">Peak</span><span class="text-dark">Optimizer</span>
-                <small class="text-muted">Wellness Tracker</small>
-            </h1>
-        </div>
+    <!-- Header section with text-based logo -->
+    <header class="app-header">
+        <a href="/" class="app-logo">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="16" cy="16" r="14" fill="#3C7AE0"/>
+                <path d="M16 10C17.6569 10 19 11.3431 19 13C19 14.6569 17.6569 16 16 16C14.3431 16 13 14.6569 13 13C13 11.3431 14.3431 10 16 10Z" fill="white"/>
+                <path d="M16 18C20 18 20 22 20 22V23H12V22C12 22 12 18 16 18Z" fill="white"/>
+                <circle cx="16" cy="6" r="2" fill="#6E35DE"/>
+            </svg>
+            <span>PeakOptimizer</span>
+        </a>
+        <nav class="app-nav">
+            <!-- Navigation links are hidden -->
+        </nav>
+    </header>
 
-        <div class="row mb-4">
-            <div class="col-md-3">
-                <div class="card stats-card">
-                    <div class="card-body">
-                        <div class="stats-number" id="key-presses">0</div>
-                        <div class="stats-label">Key Presses</div>
+    <div class="main-container">
+        <div class="hero-section">
+            <h1>Supercharge Your Focus with AI</h1>
+            <p>PeakOptimizer helps you stay energized, sharp, and productive with intelligent micro-breaks tailored to your workflow.</p>
+            <div class="card">
+                <div class="card-form-header">Start Your Focused Session</div>
+                <p class="form-subheader">Tell us <span class="highlight">how you're feeling</span> so we can help you work at your best</p>
+                
+                <div class="form-col mb-4">
+                    <label for="mood" class="form-label">
+                        Tell us how you're feeling so we can help you work at your best
+                    </label>
+                    <div class="textarea-container">
+                        <textarea id="mood" class="mood-textarea" placeholder="I'm feeling stressed with a headache..." rows="2"></textarea>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card stats-card">
-                    <div class="card-body">
-                        <div class="stats-number" id="mouse-clicks">0</div>
-                        <div class="stats-label">Mouse Clicks</div>
+                
+                <div class="form-row">
+                    <div class="form-col">
+                        <label for="duration" class="form-label">
+                            <span class="form-icon">⏱️</span>How long do you want to work?
+                        </label>
+                        <div class="d-flex align-items-center">
+                            <input type="number" id="duration" class="form-control me-2" min="5" max="240" value="30" placeholder="Enter minutes">
+                            <span style="color: #4a5568; font-weight: 500; margin-left: 8px;">minutes</span>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card stats-card">
-                    <div class="card-body">
-                        <div class="stats-number" id="window-changes">0</div>
-                        <div class="stats-label">Window Changes</div>
+                
+                <button id="start-session" class="btn btn-primary mt-4 w-100">Try PeakOptimizer Free</button>
+                
+                <div id="session-timer" class="hidden mt-4">
+                    <h2>Session Active</h2>
+                    <div id="timer">00:00</div>
+                    
+                    <!-- New progress bar section -->
+                    <div class="session-progress">
+                        <div class="progress-bar" id="session-progress-bar"></div>
                     </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card stats-card">
-                    <div class="card-body">
-                        <div class="stats-number" id="total-events">0</div>
-                        <div class="stats-label">Total Events</div>
+                    <div class="snack-markers" id="snack-markers">
+                        <!-- Snack markers will be added here dynamically -->
                     </div>
-                </div>
-            </div>
-        </div>
 
-        <div class="row mb-4">
-            <div class="col-12">
-                <button id="get-recommendations" class="btn btn-primary btn-recommend">
-                    <i class="fas fa-leaf"></i> Get Wellness Recommendations with AI
-                </button>
-                <div id="personalized-recommendations">
-                    <h5>Your Personalized Recommendations</h5>
-                    <div id="recommendations-content" class="mt-3">
-                        <p>Loading recommendations...</p>
+                    <h3>Snacks</h3>
+                    <div id="preparing-message" class="preparing-container">
+                        <div class="coach-emoji">👨‍🍳</div>
+                        <div class="preparing-text">Preparing your wellness snacks...</div>
                     </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="card-header bg-primary text-white">
-                <h5 class="mb-0">Recent Activity</h5>
-            </div>
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th>Timestamp</th>
-                                <th>Event</th>
-                                <th>Details</th>
-                            </tr>
-                        </thead>
-                        <tbody id="events-table">
-                            <!-- Events will be populated here -->
-                        </tbody>
-                    </table>
+                    <div id="nudge-list"></div>
+                    <div id="debug-timing" class="debug-info"></div>
+                    <p id="immediate-nudge" class="immediate-nudge">Show a nudge now</p>
+                    <button id="test-nudge" class="test-nudge-btn">Test Nudge (DEBUG)</button>
                 </div>
             </div>
         </div>
 
-        <div class="card mt-4">
-            <div class="card-header bg-info text-white">
-                <h5 class="mb-0">Recommendations</h5>
+        <!-- New Bedtime Reminder Section -->
+        <div class="bedtime-section">
+            <h3><span style="margin-right: 10px;">🛌</span>Bedtime Reminder</h3>
+            <div class="bedtime-toggle">
+                <label for="bedtime-toggle">Enable bedtime notifications</label>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="bedtime-toggle">
+                    <span class="toggle-slider"></span>
+                </label>
             </div>
-            <div class="card-body">
-                <div id="recommendations">
-                    <p>Based on your activity, we recommend:</p>
-                    <ul>
-                        <li id="posture-recommendation">Remember to maintain good posture while working.</li>
-                        <li id="break-recommendation">Take a short break every 30 minutes to rest your eyes.</li>
-                        <li id="stretch-recommendation">Do some stretching exercises to prevent muscle strain.</li>
-                    </ul>
+            <div class="bedtime-input">
+                <label for="bedtime-hour" class="form-label">Set your bedtime</label>
+                <div class="d-flex align-items-center">
+                    <input type="number" id="bedtime-hour" class="form-control me-2" min="1" max="12" value="10" placeholder="Hour">
+                    <span style="margin: 0 10px; color: #4a5568; font-weight: 500;">:</span>
+                    <input type="number" id="bedtime-minutes" class="form-control me-2" min="0" max="59" value="00" placeholder="Minutes">
+                    <select id="bedtime-ampm" class="form-control ms-2" style="width: auto;">
+                        <option value="AM">AM</option>
+                        <option value="PM" selected>PM</option>
+                    </select>
                 </div>
+                <p class="bedtime-info">You'll receive a gentle reminder 30 minutes before your bedtime to start winding down.</p>
             </div>
         </div>
 
-        <div class="card mt-4">
-            <div class="card-header bg-success text-white">
-                <h5 class="mb-0">Application Usage</h5>
+        <div class="features-container">
+            <div class="feature-card">
+                <h3>Wellness Snacks</h3>
+                <p>AI-powered breaks to refresh your mind and body.</p>
             </div>
-            <div class="card-body">
-                <div id="app-usage">
-                    <p>Most used applications:</p>
-                    <ul id="app-list">
-                        <li>Loading application data...</li>
-                    </ul>
-                </div>
+            <div class="feature-card">
+                <h3>Music + Science</h3>
+                <p>Focus-enhancing playlists curated for your workflow.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Screen Optimization</h3>
+                <p>Adaptive brightness & contrast for less eye strain.</p>
             </div>
         </div>
+
+        <p class="text-center mt-3">
+            <a href="/settings" style="color: rgba(255,255,255,0.8); text-decoration: none;">
+                Settings & Sound Test ⚙️
+            </a>
+        </p>
     </div>
 
+    <button id="debug-toggle" class="debug-toggle" title="Toggle Debug Mode">🔧</button>
+    
+    <audio id="notification-sound" preload="auto">
+        <source src="/static/notification.mp3" type="audio/mpeg">
+        <source src="https://www.soundjay.com/buttons/sounds/button-35a.mp3" type="audio/mpeg">
+    </audio>
+    
+    <!-- Backup inline audio for browsers that block external files -->
+    <button id="sound-test" style="display: none;">Test Sound</button>
+
     <script>
-        // Track keyboard events
-        document.addEventListener('keydown', function(event) {
-            const key = event.key;
-            fetch('/api/log_key', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ key: key }),
-            });
-        });
+        let countdown, nudgeTimers = [], nudges = [], timings = [], activeSession = false, debugMode = false;
+        const snackMappings = {
+            "breath": "Breathing Snack",
+            "vision": "Vision Snack",
+            "stretch": "Exercise Snack",
+            "mobility": "Mobility Snack",
+            "focus": "Focus Snack",
+            "goal": "Productivity Snack",
+            "deep": "Breathing Snack",
+            "back": "Posture Snack",
+            "eye": "Vision Snack",
+            "wrist": "Ergonomic Snack"
+        };
 
-        // Track mouse events
-        document.addEventListener('mousedown', function(event) {
-            const x = event.clientX;
-            const y = event.clientY;
-            const button = event.button === 0 ? 'Left' : event.button === 1 ? 'Middle' : 'Right';
+        // Function to play the notification sound with user interaction
+        function playSound() {
+            const sound = document.getElementById('notification-sound');
             
-            fetch('/api/log_mouse', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ 
-                    x: x, 
-                    y: y, 
-                    button: button, 
-                    pressed: true,
-                    screenWidth: window.screen.width,
-                    screenHeight: window.screen.height
-                }),
-            });
+            // Set higher volume
+            sound.volume = 1.0;
+            
+            // Reset the audio to the beginning
+            sound.currentTime = 0;
+            
+            // Play the sound with a promise to handle autoplay restrictions
+            const playPromise = sound.play();
+            
+            // Handle potential autoplay restrictions
+            if (playPromise !== undefined) {
+                playPromise.catch(error => {
+                    console.log("Audio playback was prevented: ", error);
+                    
+                    // Try playing directly after user interaction
+                    document.getElementById('sound-test').click();
+                    
+                    // Alert the user if audio can't be played automatically
+                    if (!localStorage.getItem('audioPermissionAlerted')) {
+                        alert("Please click anywhere on the page to enable sounds. You may need to check your browser's audio settings.");
+                        localStorage.setItem('audioPermissionAlerted', 'true');
+                    }
+                });
+            }
+        }
+
+        // Initialize audio permission by creating a user-initiated event
+        document.getElementById('sound-test').addEventListener('click', function() {
+            // Create a temporary audio element and play it
+            const tempAudio = new Audio();
+            tempAudio.src = "data:audio/mp3;base64,SUQzAwAAAAAAJlRQRTEAAAAcAAAAU291bmRKYXkuY29tIFNvdW5kIEVmZmVjdHMARElSQwAAAAFpAAAAAAAAAAgABQAlAEEDAAUALQAmAwAFAAAATEFNRTMuOTlyAWYAAAAALpQAAMAAAQJOgkMEWgAABQAgJAbDEABQtQB/YAUAGQJAaA0BAFIcAP8ASGluZwAAAA==";
+            tempAudio.volume = 1.0;
+            tempAudio.play().catch(e => console.log("Still can't play audio:", e));
         });
 
-        // Track active window (limited to browser tab title changes)
-        let lastTitle = document.title;
-        setInterval(() => {
-            if (document.title !== lastTitle) {
-                fetch('/api/log_window', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ window: document.title }),
-                });
-                lastTitle = document.title;
-            }
-        }, 2000);
+        // Initialize audio on page load with user interaction
+        document.addEventListener('click', function() {
+            document.getElementById('sound-test').click();
+        }, { once: true });
 
-        // Function to update the events table
-        function updateEvents() {
-            fetch('/api/events')
-                .then(response => response.json())
+        // Show clear instructions for enabling audio
+        window.addEventListener('load', function() {
+            setTimeout(() => {
+                alert("Welcome to PeakOptimizer! Please click anywhere on the page to enable audio notifications.");
+            }, 500);
+        });
+
+        // Debug mode toggle
+        document.getElementById('debug-toggle').addEventListener('click', function() {
+            debugMode = !debugMode;
+            document.getElementById('debug-timing').style.display = debugMode ? 'block' : 'none';
+            document.getElementById('test-nudge').style.display = debugMode ? 'block' : 'none';
+            document.getElementById('immediate-nudge').style.display = debugMode ? 'block' : 'none';
+            
+            // Save debug mode preference
+            localStorage.setItem('debugMode', debugMode.toString());
+            
+            if (debugMode) {
+                alert('Debug mode enabled. You can now test features and see timing information.');
+            }
+        });
+        
+        // Test nudge button (only visible in debug mode)
+        document.getElementById('test-nudge').addEventListener('click', function() {
+            if (nudges.length > 0) {
+                displayNudge(nudges[0]);
+            } else {
+                displayNudge("This is a test nudge. Take a deep breath and stretch your arms.");
+            }
+        });
+        
+        // Show immediate nudge link (only visible in debug mode)
+        document.getElementById('immediate-nudge').addEventListener('click', function() {
+            if (nudges.length > 0) {
+                displayNudge(nudges[0]);
+                // Remove the first nudge from the array
+                nudges.shift();
+            } else {
+                displayNudge("Take a moment to stretch and reset your posture.");
+            }
+        });
+
+        document.getElementById('start-session').addEventListener('click', function() {
+            // Cancel any existing session
+            if (activeSession) {
+                clearInterval(countdown);
+                nudgeTimers.forEach(timer => clearTimeout(timer));
+                nudgeTimers = [];
+            }
+            
+            const userInput = document.getElementById('mood').value || 'neutral';
+            const duration = parseInt(document.getElementById('duration').value);
+            
+            // Extract mood and concerns from the single input field
+            // We'll send the full text to the server and let it process both aspects
+            
+            // Validate duration
+            if (isNaN(duration) || duration < 5 || duration > 240) {
+                alert('Please enter a valid duration between 5 and 240 minutes.');
+                return;
+            }
+            
+            // Show loading state on button
+            const button = this;
+            button.innerHTML = 'Starting session...';
+            button.disabled = true;
+            
+            fetch('/start_session', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ user_input: userInput, duration })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
                 .then(data => {
-                    const eventsTable = document.getElementById('events-table');
-                    const currentRows = eventsTable.querySelectorAll('tr').length;
+                // Reset button
+                button.innerHTML = 'Try PeakOptimizer Free';
+                button.disabled = false;
+                
+                // Ensure we have the timer section visible
+                const timerSection = document.getElementById('session-timer');
+                timerSection.classList.remove('hidden');
+                
+                // Show the preparing message
+                document.getElementById('preparing-message').style.display = 'flex';
+                
+                // Clear previous nudges
+                document.getElementById('nudge-list').innerHTML = '';
+                
+                // Process and display nudges
+                if (data.nudges && data.nudges.length > 0) {
+                    nudges = data.nudges;
+                    timings = data.timing || [];
+                    activeSession = true;
                     
-                    // If we have new events, add them
-                    if (data.length > currentRows) {
-                        // Clear existing rows if this is the first update
-                        if (currentRows === 0) {
-                            eventsTable.innerHTML = '';
-                        }
+                    // Add debug info
+                    const debugEl = document.getElementById('debug-timing');
+                    debugEl.innerHTML = `Session: ${duration} min | Nudges: ${nudges.length} | Timings: ${JSON.stringify(timings)}`;
+                    debugEl.style.display = debugMode ? 'block' : 'none'; // Only show in debug mode
+                    
+                    // Start the countdown timer
+                    startTimer(duration * 60);
+                    
+                    // Play notification sound for session start
+                    playSound();
+                    
+                    // Schedule each nudge based on timing
+                    if (timings && timings.length > 0) {
+                        console.log("Scheduling nudges at times (seconds):", timings);
                         
-                        // Add new rows
-                        for (let i = data.length - 1; i >= 0; i--) {
-                            const event = data[i];
+                        // Clear any existing timers
+                        nudgeTimers.forEach(timer => clearTimeout(timer));
+                        nudgeTimers = [];
+                        
+                        // Set up new timers for each nudge
+                        for (let i = 0; i < Math.min(nudges.length, timings.length); i++) {
+                            const timeInMs = timings[i] * 1000; // Convert seconds to milliseconds
                             
-                            // Check if this row already exists
-                            const existingRow = document.querySelector(`tr[data-timestamp="${event.timestamp}"][data-event="${event.event}"]`);
-                            if (!existingRow) {
-                                const row = document.createElement('tr');
-                                row.className = 'event-row new';
-                                row.setAttribute('data-timestamp', event.timestamp);
-                                row.setAttribute('data-event', event.event);
-                                
-                                row.innerHTML = `
-                                    <td>${event.timestamp}</td>
-                                    <td>${event.event}</td>
-                                    <td>${event.details}</td>
-                                `;
-                                
-                                // Insert at the beginning
-                                if (eventsTable.firstChild) {
-                                    eventsTable.insertBefore(row, eventsTable.firstChild);
+                            console.log(`Scheduling nudge ${i+1} to appear in ${timeInMs/1000} seconds`);
+                            
+                            const timer = setTimeout(() => {
+                                console.log(`Displaying nudge ${i+1}: ${nudges[i]}`);
+                                displayNudge(nudges[i]);
+                            }, timeInMs);
+                            
+                            nudgeTimers.push(timer);
+                        }
                                 } else {
-                                    eventsTable.appendChild(row);
+                        // Fallback to showing all nudges quickly (old behavior)
+                        console.log("No timing information, displaying nudges sequentially");
+                        showNextNudge();
                                 }
                                 
-                                // Remove the 'new' class after a delay
+                    // For testing - force display first nudge after 5 seconds if none have shown yet
+                    if (nudges.length > 0) {
                                 setTimeout(() => {
-                                    row.className = 'event-row';
-                                }, 2000);
+                            // If we still have the preparing message, show the first nudge
+                            if (document.getElementById('preparing-message').style.display !== 'none') {
+                                console.log("Forcing display of first nudge after timeout");
+                                displayNudge(nudges[0]);
                             }
-                        }
-                        
-                        // Limit the number of rows shown
-                        const maxRowsToShow = 50;
-                        const rows = eventsTable.querySelectorAll('tr');
-                        if (rows.length > maxRowsToShow) {
-                            for (let i = maxRowsToShow; i < rows.length; i++) {
-                                eventsTable.removeChild(rows[i]);
-                            }
-                        }
+                        }, 5000);
                     }
-                });
-        }
-        
-        // Function to update the stats
-        function updateStats() {
-            fetch('/api/stats')
-                .then(response => response.json())
-                .then(data => {
-                    document.getElementById('key-presses').textContent = data.key_presses;
-                    document.getElementById('mouse-clicks').textContent = data.mouse_clicks;
-                    document.getElementById('window-changes').textContent = data.window_changes;
-                    document.getElementById('total-events').textContent = data.total_events;
+                } else {
+                    // Hide preparing message for empty nudges
+                    document.getElementById('preparing-message').style.display = 'none';
                     
-                    // Update recommendations based on activity
-                    updateRecommendations(data);
-                });
-        }
-        
-        // Function to update recommendations
-        function updateRecommendations(stats) {
-            const currentTime = new Date();
-            const hour = currentTime.getHours();
-            
-            // Posture recommendation
-            if (stats.key_presses > 50) {
-                document.getElementById('posture-recommendation').textContent = 
-                    "You've been typing a lot. Check your posture and wrist position.";
-            }
-            
-            // Break recommendation
-            if (stats.total_events > 100) {
-                document.getElementById('break-recommendation').textContent = 
-                    "You've been active for a while. Consider taking a 5-minute break.";
-            }
-            
-            // Time-based recommendations
-            if (hour >= 22 || hour <= 5) {
-                document.getElementById('stretch-recommendation').textContent = 
-                    "It's late! Consider wrapping up soon to get proper rest.";
-            } else if (hour >= 14 && hour <= 15) {
-                document.getElementById('stretch-recommendation').textContent = 
-                    "Afternoon slump? Try a quick walk or some deep breathing exercises.";
-            }
-        }
-        
-        // Function to update application usage
-        function updateAppUsage() {
-            fetch('/api/events')
-                .then(response => response.json())
-                .then(data => {
-                    // Count application usage
-                    const appUsage = {};
-                    data.forEach(event => {
-                        if (event.event === "ActiveWindow") {
-                            if (!appUsage[event.details]) {
-                                appUsage[event.details] = 0;
-                            }
-                            appUsage[event.details]++;
-                        }
-                    });
-                    
-                    // Sort by usage count
-                    const sortedApps = Object.entries(appUsage)
-                        .sort((a, b) => b[1] - a[1])
-                        .slice(0, 5); // Top 5 apps
-                    
-                    // Update the app list
-                    const appList = document.getElementById('app-list');
-                    if (sortedApps.length > 0) {
-                        appList.innerHTML = '';
-                        sortedApps.forEach(([app, count]) => {
-                            const li = document.createElement('li');
-                            li.textContent = `${app}: ${count} activations`;
-                            appList.appendChild(li);
-                        });
-                    } else {
-                        appList.innerHTML = '<li>No application data yet</li>';
-                    }
-                });
-        }
-        
-        // Update data every 5 seconds
-        setInterval(() => {
-            updateEvents();
-            updateStats();
-            updateAppUsage();
-        }, 5000);
-        
-        // Initial update
-        updateEvents();
-        updateStats();
-        updateAppUsage();
-
-        // Log page load as window change
-        fetch('/api/log_window', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ window: document.title }),
-        });
-
-        // Log visibility changes
-        document.addEventListener('visibilitychange', function() {
-            const state = document.visibilityState === 'visible' ? 'Active' : 'Hidden';
-            fetch('/api/log_window', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ window: `Browser tab ${state}` }),
+                    // Handle empty nudges case
+                    const nudgeDiv = document.createElement('div');
+                    nudgeDiv.className = 'nudge';
+                    nudgeDiv.textContent = 'No recommendations available. Try again with different inputs.';
+                    document.getElementById('nudge-list').appendChild(nudgeDiv);
+                }
+            })
+            .catch(error => {
+                // Reset button
+                button.innerHTML = 'Try PeakOptimizer Free';
+                button.disabled = false;
+                
+                // Hide preparing message on error
+                document.getElementById('preparing-message').style.display = 'none';
+                
+                console.error('Error:', error);
+                alert('There was an error starting your session. Please try again.');
             });
         });
-
-        // Add recommendation functionality
-        document.getElementById('get-recommendations').addEventListener('click', function() {
-            // Show loading state
-            const recommendationsDiv = document.getElementById('personalized-recommendations');
-            recommendationsDiv.style.display = 'block';
-            document.getElementById('recommendations-content').innerHTML = '<p>Analyzing your activity patterns...</p>';
+        
+        function startTimer(seconds) {
+            clearInterval(countdown);
+            const timerDisplay = document.getElementById('timer');
+            const progressBar = document.getElementById('session-progress-bar');
+            let remainingSeconds = seconds;
+            const totalSeconds = seconds;
             
-            // Fetch events and request recommendations
-            fetch('/api/events')
-                .then(response => response.json())
-                .then(data => {
-                    fetch('/api/recommend', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({ events: data }),
-                    })
-                    .then(response => response.json())
-                    .then(recommendations => {
-                        // Format the recommendations with proper styling
-                        const formattedContent = `
-                            <div class="recommendation-section">
-                                ${recommendations.content}
-                            </div>
-                        `;
-                        document.getElementById('recommendations-content').innerHTML = formattedContent;
-                    })
-                    .catch(error => {
-                        document.getElementById('recommendations-content').innerHTML = 
-                            '<p>Sorry, there was an error generating recommendations. Please try again later.</p>';
-                        console.error('Error:', error);
+            // Setup snack markers based on timings
+            setupSnackMarkers(totalSeconds);
+            
+            function updateTimer() {
+                const minutes = Math.floor(remainingSeconds / 60);
+                const secs = remainingSeconds % 60;
+                timerDisplay.textContent = `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
+                
+                // Update progress bar
+                const progressPercent = 100 - ((remainingSeconds / totalSeconds) * 100);
+                progressBar.style.width = `${progressPercent}%`;
+                
+                // Check if any snack markers should be marked as completed
+                const elapsedSeconds = totalSeconds - remainingSeconds;
+                updateSnackMarkers(elapsedSeconds);
+                
+                if (remainingSeconds > 0) {
+                    remainingSeconds--;
+                } else {
+                    clearInterval(countdown);
+                    activeSession = false;
+                    
+                    // Session complete - clear any pending timers
+                    nudgeTimers.forEach(timer => clearTimeout(timer));
+                    nudgeTimers = [];
+                    
+                    // Add completion message
+                    const nudgeDiv = document.createElement('div');
+                    nudgeDiv.className = 'nudge';
+                    nudgeDiv.style.borderLeft = '4px solid #42b983';
+                    nudgeDiv.textContent = `Session complete! Well done on your focused work time.`;
+                    document.getElementById('nudge-list').appendChild(nudgeDiv);
+                    
+                    // Play notification sound for session end
+                    playSound();
+                    
+                    // Mark all snack markers as completed
+                    document.querySelectorAll('.snack-marker').forEach(marker => {
+                        marker.classList.add('completed');
                     });
+                }
+            }
+            
+            updateTimer(); // Initial display
+            countdown = setInterval(updateTimer, 1000);
+        }
+        
+        function setupSnackMarkers(totalSeconds) {
+            const markersContainer = document.getElementById('snack-markers');
+            markersContainer.innerHTML = ''; // Clear existing markers
+            
+            if (!timings || timings.length === 0) return;
+            
+            // Add markers for each snack timing
+            timings.forEach((time, index) => {
+                const positionPercent = (time / totalSeconds) * 100;
+                const marker = document.createElement('div');
+                marker.className = 'snack-marker';
+                marker.style.left = `${positionPercent}%`;
+                
+                // Format the time for the tooltip (convert seconds to minutes)
+                const minutes = Math.floor(time / 60);
+                const seconds = time % 60;
+                const formattedTime = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+                marker.setAttribute('data-time', `Snack at ${formattedTime}`);
+                marker.setAttribute('data-index', index);
+                
+                marker.addEventListener('click', function() {
+                    if (debugMode) {
+                        displayNudge(nudges[index] || "Preview of upcoming wellness snack");
+                    }
                 });
+                
+                markersContainer.appendChild(marker);
+            });
+        }
+        
+        function updateSnackMarkers(elapsedSeconds) {
+            document.querySelectorAll('.snack-marker').forEach(marker => {
+                const index = parseInt(marker.getAttribute('data-index'));
+                if (timings[index] <= elapsedSeconds) {
+                    marker.classList.add('completed');
+                }
+            });
+        }
+        
+        // Function to display a single nudge
+        function displayNudge(nudgeText) {
+            // Hide the preparing message once nudges start appearing
+            document.getElementById('preparing-message').style.display = 'none';
+            
+            let snackType = "General Snack";
+            
+            // Determine snack type based on keywords
+            for (const keyword in snackMappings) {
+                if (nudgeText.toLowerCase().includes(keyword)) {
+                    snackType = snackMappings[keyword];
+                    break;
+                }
+            }
+            
+            // Create and append the nudge
+            const nudgeDiv = document.createElement('div');
+            nudgeDiv.className = 'nudge';
+            nudgeDiv.textContent = `${snackType}: ${nudgeText}`;
+            document.getElementById('nudge-list').appendChild(nudgeDiv);
+            
+            // Scroll to the new nudge
+            nudgeDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            
+            // Play notification sound for new nudge
+            playSound();
+        }
+        
+        // Legacy sequential nudge display (fallback)
+        function showNextNudge() {
+            let index = 0;
+            
+            function displayNext() {
+                if (index < nudges.length) {
+                    setTimeout(() => {
+                        displayNudge(nudges[index]);
+                        index++;
+                        displayNext();
+                    }, 5000); // 5 seconds between nudges
+                }
+            }
+            
+            displayNext();
+        }
+
+        // Bedtime reminder functionality
+        let bedtimeInterval;
+        
+        function checkBedtimeReminder() {
+            const bedtimeEnabled = document.getElementById('bedtime-toggle').checked;
+            if (!bedtimeEnabled) return;
+            
+            const now = new Date();
+            const currentHours = now.getHours();
+            const currentMinutes = now.getMinutes();
+            
+            // Get 12-hour format values
+            const bedtimeHour = parseInt(document.getElementById('bedtime-hour').value, 10);
+            const bedtimeMinutes = parseInt(document.getElementById('bedtime-minutes').value, 10);
+            const bedtimeAmPm = document.getElementById('bedtime-ampm').value;
+            
+            // Convert to 24-hour format for calculations
+            let bedtimeHours24 = bedtimeHour;
+            if (bedtimeAmPm === 'PM' && bedtimeHour < 12) {
+                bedtimeHours24 = bedtimeHour + 12;
+            } else if (bedtimeAmPm === 'AM' && bedtimeHour === 12) {
+                bedtimeHours24 = 0;
+            }
+            
+            // Calculate reminder time (30 minutes before bedtime)
+            let reminderHours = bedtimeHours24;
+            let reminderMinutes = bedtimeMinutes - 30;
+            
+            if (reminderMinutes < 0) {
+                reminderMinutes += 60;
+                reminderHours = (reminderHours - 1 + 24) % 24;
+            }
+            
+            // Check if it's time for the reminder
+            if (currentHours === reminderHours && currentMinutes === reminderMinutes) {
+                // Don't show if we've already shown today (use localStorage)
+                const lastReminderDate = localStorage.getItem('lastBedtimeReminder');
+                const today = now.toDateString();
+                
+                if (lastReminderDate !== today) {
+                    showBedtimeReminder();
+                    localStorage.setItem('lastBedtimeReminder', today);
+                }
+            }
+        }
+        
+        function showBedtimeReminder() {
+            // Play notification sound
+            playSound();
+            
+            // Show a browser notification if permission granted
+            if (Notification.permission === "granted") {
+                const notification = new Notification("Bedtime Reminder", {
+                    body: "Time to start winding down! Your bedtime is in 30 minutes.",
+                    icon: "/favicon.ico"
+                });
+                
+                notification.onclick = function() {
+                    window.focus();
+                };
+            } else if (Notification.permission !== "denied") {
+                Notification.requestPermission().then(permission => {
+                    if (permission === "granted") {
+                        showBedtimeReminder();
+                    }
+                });
+            }
+            
+            // Fallback - show alert for browsers that don't support notifications
+            if (Notification.permission !== "granted") {
+                alert("Bedtime Reminder: Time to start winding down! Your bedtime is in 30 minutes.");
+            }
+        }
+        
+        // Initialize bedtime reminder feature
+        document.getElementById('bedtime-toggle').addEventListener('change', function() {
+            if (this.checked) {
+                // Request notification permission when enabling
+                if (Notification.permission !== "granted" && Notification.permission !== "denied") {
+                    Notification.requestPermission();
+                }
+                
+                // Start checking bedtime every minute
+                bedtimeInterval = setInterval(checkBedtimeReminder, 60000); // Check every minute
+                
+                // Store preference
+                localStorage.setItem('bedtimeReminderEnabled', 'true');
+                localStorage.setItem('bedtime', document.getElementById('bedtime').value);
+            } else {
+                // Stop checking bedtime
+                clearInterval(bedtimeInterval);
+                
+                // Store preference
+                localStorage.setItem('bedtimeReminderEnabled', 'false');
+            }
+        });
+        
+        document.getElementById('bedtime').addEventListener('change', function() {
+            // Store bedtime preference
+            localStorage.setItem('bedtime', this.value);
+        });
+
+        document.getElementById('bedtime-hour').addEventListener('change', function() {
+            saveBedtimeSettings();
+        });
+        
+        document.getElementById('bedtime-minutes').addEventListener('change', function() {
+            saveBedtimeSettings();
+        });
+        
+        document.getElementById('bedtime-ampm').addEventListener('change', function() {
+            saveBedtimeSettings();
+        });
+        
+        function saveBedtimeSettings() {
+            const hours = document.getElementById('bedtime-hour').value.padStart(2, '0');
+            const minutes = document.getElementById('bedtime-minutes').value.padStart(2, '0');
+            const ampm = document.getElementById('bedtime-ampm').value;
+            
+            localStorage.setItem('bedtime-hour', hours);
+            localStorage.setItem('bedtime-minutes', minutes);
+            localStorage.setItem('bedtime-ampm', ampm);
+        }
+        
+        // Load saved preferences on page load
+        window.addEventListener('DOMContentLoaded', function() {
+            // Check if debug mode was previously enabled
+            debugMode = localStorage.getItem('debugMode') === 'true';
+            
+            // Apply debug mode settings
+            document.getElementById('debug-timing').style.display = debugMode ? 'block' : 'none';
+            document.getElementById('test-nudge').style.display = debugMode ? 'block' : 'none';
+            document.getElementById('immediate-nudge').style.display = debugMode ? 'block' : 'none';
+            
+            // Load bedtime reminder settings from localStorage
+            const bedtimeEnabled = localStorage.getItem('bedtimeReminderEnabled') === 'true';
+            const savedBedtimeHour = localStorage.getItem('bedtime-hour') || '10';
+            const savedBedtimeMinutes = localStorage.getItem('bedtime-minutes') || '00';
+            const savedBedtimeAmPm = localStorage.getItem('bedtime-ampm') || 'PM';
+            
+            if (bedtimeEnabled) {
+                document.getElementById('bedtime-toggle').checked = true;
+                bedtimeInterval = setInterval(checkBedtimeReminder, 60000); // Check every minute
+            }
+            
+            document.getElementById('bedtime-hour').value = savedBedtimeHour;
+            document.getElementById('bedtime-minutes').value = savedBedtimeMinutes;
+            document.getElementById('bedtime-ampm').value = savedBedtimeAmPm;
+            
+            // Request notification permission when page loads
+            if (Notification.permission !== "granted" && Notification.permission !== "denied") {
+                Notification.requestPermission();
+            }
         });
     </script>
 </body>
 </html>
+
+
+
+

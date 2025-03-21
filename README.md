@@ -35,3 +35,56 @@ PeakOptimizer analyzes real-time **work behavior, cognitive engagement, and phys
    ```bash
    git clone https://github.com/yourusername/PeakOptimizer.git  
    cd PeakOptimizer
+
+## Features
+
+- **Wellness Snacks**: AI-powered breaks to refresh your mind and body
+- **Music + Science**: Focus-enhancing playlists curated for your workflow
+- **Screen Optimization**: Adaptive brightness & contrast for less eye strain
+
+## Getting Started
+
+### Prerequisites
+
+- Python 3.7+
+- Flask
+- Together.ai API key (already included in api_keys.json)
+
+### Installation
+
+1. Clone this repository
+2. Install the required packages:
+
+```bash
+pip install flask together
+```
+
+### Running the App
+
+Run the app using:
+
+```bash
+python app.py
+```
+
+The app will be available at http://localhost:5000
+
+## How to Use
+
+1. Open the web app in your browser
+2. Enter your current mood
+3. Select your desired work duration
+4. Click "Try PeakOptimizer Free"
+5. Follow the personalized micro-break suggestions that appear
+
+## Development
+
+This is an MVP (Minimum Viable Product) version. Future development may include:
+- User accounts and personalization
+- More advanced AI recommendations
+- Integration with calendar and task management tools
+- Mobile app version
+
+## License
+
+See the LICENSE file for details.
