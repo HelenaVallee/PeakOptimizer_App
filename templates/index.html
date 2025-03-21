@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PeakOptimizer - Activity Tracker</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            padding-top: 20px;
+            background-color: #f8f9fa;
+            color: #4a5568;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .card {
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            border: none;
+            border-radius: 12px;
+        }
+        .card-header {
+            border-radius: 12px 12px 0 0 !important;
+            font-weight: 500;
+        }
+        .bg-primary {
+            background-color: #2c7a7b !important;
+        }
+        .bg-info {
+            background-color: #3182ce !important;
+        }
+        .bg-success {
+            background-color: #38a169 !important;
+        }
+        .text-primary {
+            color: #2c7a7b !important;
+        }
+        .btn-primary {
+            background-color: #2c7a7b;
+            border-color: #2c7a7b;
+        }
+        .btn-primary:hover {
+            background-color: #285e61;
+            border-color: #285e61;
+        }
+        .stats-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #2c7a7b;
+        }
+        .header-title h1 {
+            color: #4a5568;
+        }
+        .header-title .text-primary {
+            color: #2c7a7b !important;
+        }
+        #personalized-recommendations {
+            display: none;
+            margin-top: 15px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+        }
+        #personalized-recommendations h5 {
+            background-color: #2c7a7b;
+            color: white;
+            padding: 15px 20px;
+            margin: 0;
+            font-weight: 500;
+            border-radius: 12px 12px 0 0;
+        }
+        .recommendation-section {
+            padding: 25px;
+            background-color: white;
+        }
+        .recommendation-section p {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            color: #4a5568;
+        }
+        .recommendation-section ul {
+            list-style-type: none;
+            padding-left: 0;
+            margin-bottom: 20px;
+        }
+        .recommendation-section li {
+            background-color: #f7fafc;
+            border-left: 4px solid #3182ce;
+            padding: 18px;
+            margin-bottom: 15px;
+            border-radius: 0 8px 8px 0;
+            font-size: 1.05rem;
+            transition: all 0.3s ease;
+        }
+        .recommendation-section li:hover {
+            transform: translateX(5px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        .recommendation-section li strong {
+            color: #2c7a7b;
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .btn-recommend {
+            margin-bottom: 15px;
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            background-color: #3182ce;
+            border-color: #3182ce;
+        }
+        .btn-recommend:hover {
+            background-color: #2c7a7b;
+            border-color: #2c7a7b;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .event-row.new {
+            background-color: #edf2f7;
+        }
+        .table {
+            color: #4a5568;
+        }
+        .table thead th {
+            border-bottom: 2px solid #e2e8f0;
+            color: #2c7a7b;
+            font-weight: 500;
+        }
+        .table td, .table th {
+            border-top: 1px solid #e2e8f0;
+            padding: 12px;
+        }
+        .event-row {
+            transition: background-color 0.3s;
+        }
+        .stats-card {
+            text-align: center;
+        }
+        .stats-card .card-body {
+            padding: 1.5rem;
+        }
+        .stats-label {
+            font-size: 0.9rem;
+            color: #4a5568;
+        }
+        .header-logo {
+            max-height: 50px;
+            margin-right: 10px;
+        }
+        .header-title {
+            display: flex;
+            align-items: center;
+        }
+        .recommendation-card {
+            margin-top: 20px;
+            border-left: 4px solid #3182ce;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header-title mb-4">
+            <h1 class="display-5">
+                <span class="text-primary">Peak</span><span class="text-dark">Optimizer</span>
+                <small class="text-muted">Wellness Tracker</small>
+            </h1>
+        </div>
+
+        <div class="row mb-4">
+            <div class="col-md-3">
+                <div class="card stats-card">
+                    <div class="card-body">
+                        <div class="stats-number" id="key-presses">0</div>
+                        <div class="stats-label">Key Presses</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card stats-card">
+                    <div class="card-body">
+                        <div class="stats-number" id="mouse-clicks">0</div>
+                        <div class="stats-label">Mouse Clicks</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card stats-card">
+                    <div class="card-body">
+                        <div class="stats-number" id="window-changes">0</div>
+                        <div class="stats-label">Window Changes</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card stats-card">
+                    <div class="card-body">
+                        <div class="stats-number" id="total-events">0</div>
+                        <div class="stats-label">Total Events</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-4">
+            <div class="col-12">
+                <button id="get-recommendations" class="btn btn-primary btn-recommend">
+                    <i class="fas fa-leaf"></i> Get Wellness Recommendations with AI
+                </button>
+                <div id="personalized-recommendations">
+                    <h5>Your Personalized Recommendations</h5>
+                    <div id="recommendations-content" class="mt-3">
+                        <p>Loading recommendations...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">Recent Activity</h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Timestamp</th>
+                                <th>Event</th>
+                                <th>Details</th>
+                            </tr>
+                        </thead>
+                        <tbody id="events-table">
+                            <!-- Events will be populated here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="card mt-4">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0">Recommendations</h5>
+            </div>
+            <div class="card-body">
+                <div id="recommendations">
+                    <p>Based on your activity, we recommend:</p>
+                    <ul>
+                        <li id="posture-recommendation">Remember to maintain good posture while working.</li>
+                        <li id="break-recommendation">Take a short break every 30 minutes to rest your eyes.</li>
+                        <li id="stretch-recommendation">Do some stretching exercises to prevent muscle strain.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="card mt-4">
+            <div class="card-header bg-success text-white">
+                <h5 class="mb-0">Application Usage</h5>
+            </div>
+            <div class="card-body">
+                <div id="app-usage">
+                    <p>Most used applications:</p>
+                    <ul id="app-list">
+                        <li>Loading application data...</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Track keyboard events
+        document.addEventListener('keydown', function(event) {
+            const key = event.key;
+            fetch('/api/log_key', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ key: key }),
+            });
+        });
+
+        // Track mouse events
+        document.addEventListener('mousedown', function(event) {
+            const x = event.clientX;
+            const y = event.clientY;
+            const button = event.button === 0 ? 'Left' : event.button === 1 ? 'Middle' : 'Right';
+            
+            fetch('/api/log_mouse', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ 
+                    x: x, 
+                    y: y, 
+                    button: button, 
+                    pressed: true,
+                    screenWidth: window.screen.width,
+                    screenHeight: window.screen.height
+                }),
+            });
+        });
+
+        // Track active window (limited to browser tab title changes)
+        let lastTitle = document.title;
+        setInterval(() => {
+            if (document.title !== lastTitle) {
+                fetch('/api/log_window', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ window: document.title }),
+                });
+                lastTitle = document.title;
+            }
+        }, 2000);
+
+        // Function to update the events table
+        function updateEvents() {
+            fetch('/api/events')
+                .then(response => response.json())
+                .then(data => {
+                    const eventsTable = document.getElementById('events-table');
+                    const currentRows = eventsTable.querySelectorAll('tr').length;
+                    
+                    // If we have new events, add them
+                    if (data.length > currentRows) {
+                        // Clear existing rows if this is the first update
+                        if (currentRows === 0) {
+                            eventsTable.innerHTML = '';
+                        }
+                        
+                        // Add new rows
+                        for (let i = data.length - 1; i >= 0; i--) {
+                            const event = data[i];
+                            
+                            // Check if this row already exists
+                            const existingRow = document.querySelector(`tr[data-timestamp="${event.timestamp}"][data-event="${event.event}"]`);
+                            if (!existingRow) {
+                                const row = document.createElement('tr');
+                                row.className = 'event-row new';
+                                row.setAttribute('data-timestamp', event.timestamp);
+                                row.setAttribute('data-event', event.event);
+                                
+                                row.innerHTML = `
+                                    <td>${event.timestamp}</td>
+                                    <td>${event.event}</td>
+                                    <td>${event.details}</td>
+                                `;
+                                
+                                // Insert at the beginning
+                                if (eventsTable.firstChild) {
+                                    eventsTable.insertBefore(row, eventsTable.firstChild);
+                                } else {
+                                    eventsTable.appendChild(row);
+                                }
+                                
+                                // Remove the 'new' class after a delay
+                                setTimeout(() => {
+                                    row.className = 'event-row';
+                                }, 2000);
+                            }
+                        }
+                        
+                        // Limit the number of rows shown
+                        const maxRowsToShow = 50;
+                        const rows = eventsTable.querySelectorAll('tr');
+                        if (rows.length > maxRowsToShow) {
+                            for (let i = maxRowsToShow; i < rows.length; i++) {
+                                eventsTable.removeChild(rows[i]);
+                            }
+                        }
+                    }
+                });
+        }
+        
+        // Function to update the stats
+        function updateStats() {
+            fetch('/api/stats')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('key-presses').textContent = data.key_presses;
+                    document.getElementById('mouse-clicks').textContent = data.mouse_clicks;
+                    document.getElementById('window-changes').textContent = data.window_changes;
+                    document.getElementById('total-events').textContent = data.total_events;
+                    
+                    // Update recommendations based on activity
+                    updateRecommendations(data);
+                });
+        }
+        
+        // Function to update recommendations
+        function updateRecommendations(stats) {
+            const currentTime = new Date();
+            const hour = currentTime.getHours();
+            
+            // Posture recommendation
+            if (stats.key_presses > 50) {
+                document.getElementById('posture-recommendation').textContent = 
+                    "You've been typing a lot. Check your posture and wrist position.";
+            }
+            
+            // Break recommendation
+            if (stats.total_events > 100) {
+                document.getElementById('break-recommendation').textContent = 
+                    "You've been active for a while. Consider taking a 5-minute break.";
+            }
+            
+            // Time-based recommendations
+            if (hour >= 22 || hour <= 5) {
+                document.getElementById('stretch-recommendation').textContent = 
+                    "It's late! Consider wrapping up soon to get proper rest.";
+            } else if (hour >= 14 && hour <= 15) {
+                document.getElementById('stretch-recommendation').textContent = 
+                    "Afternoon slump? Try a quick walk or some deep breathing exercises.";
+            }
+        }
+        
+        // Function to update application usage
+        function updateAppUsage() {
+            fetch('/api/events')
+                .then(response => response.json())
+                .then(data => {
+                    // Count application usage
+                    const appUsage = {};
+                    data.forEach(event => {
+                        if (event.event === "ActiveWindow") {
+                            if (!appUsage[event.details]) {
+                                appUsage[event.details] = 0;
+                            }
+                            appUsage[event.details]++;
+                        }
+                    });
+                    
+                    // Sort by usage count
+                    const sortedApps = Object.entries(appUsage)
+                        .sort((a, b) => b[1] - a[1])
+                        .slice(0, 5); // Top 5 apps
+                    
+                    // Update the app list
+                    const appList = document.getElementById('app-list');
+                    if (sortedApps.length > 0) {
+                        appList.innerHTML = '';
+                        sortedApps.forEach(([app, count]) => {
+                            const li = document.createElement('li');
+                            li.textContent = `${app}: ${count} activations`;
+                            appList.appendChild(li);
+                        });
+                    } else {
+                        appList.innerHTML = '<li>No application data yet</li>';
+                    }
+                });
+        }
+        
+        // Update data every 5 seconds
+        setInterval(() => {
+            updateEvents();
+            updateStats();
+            updateAppUsage();
+        }, 5000);
+        
+        // Initial update
+        updateEvents();
+        updateStats();
+        updateAppUsage();
+
+        // Log page load as window change
+        fetch('/api/log_window', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ window: document.title }),
+        });
+
+        // Log visibility changes
+        document.addEventListener('visibilitychange', function() {
+            const state = document.visibilityState === 'visible' ? 'Active' : 'Hidden';
+            fetch('/api/log_window', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ window: `Browser tab ${state}` }),
+            });
+        });
+
+        // Add recommendation functionality
+        document.getElementById('get-recommendations').addEventListener('click', function() {
+            // Show loading state
+            const recommendationsDiv = document.getElementById('personalized-recommendations');
+            recommendationsDiv.style.display = 'block';
+            document.getElementById('recommendations-content').innerHTML = '<p>Analyzing your activity patterns...</p>';
+            
+            // Fetch events and request recommendations
+            fetch('/api/events')
+                .then(response => response.json())
+                .then(data => {
+                    fetch('/api/recommend', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ events: data }),
+                    })
+                    .then(response => response.json())
+                    .then(recommendations => {
+                        // Format the recommendations with proper styling
+                        const formattedContent = `
+                            <div class="recommendation-section">
+                                ${recommendations.content}
+                            </div>
+                        `;
+                        document.getElementById('recommendations-content').innerHTML = formattedContent;
+                    })
+                    .catch(error => {
+                        document.getElementById('recommendations-content').innerHTML = 
+                            '<p>Sorry, there was an error generating recommendations. Please try again later.</p>';
+                        console.error('Error:', error);
+                    });
+                });
+        });
+    </script>
+</body>
+</html>
